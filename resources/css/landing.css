@@ -1,0 +1,15 @@
+.body{
+    -fx-background-color: blue;
+}
+
+.h1-white{
+    -fx-font-size: 20px;
+    -fx-fill: white;
+}
+
+.button-white{
+    -fx-border-color: white;
+    -fx-fill: white;
+    -fx-background-color: transparent;
+
+}
