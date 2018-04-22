@@ -35,8 +35,8 @@ public class Controller implements Initializable {
     public void navToNetwork(ActionEvent actionEvent) throws IOException {
         Stage stage = Main.getPrimaryStage();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/network.fxml"));
-        stage.setScene(new Scene(root, 300, 275));
-
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 }

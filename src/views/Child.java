@@ -7,8 +7,8 @@ public class Child extends Profile {
     private ArrayList<Profile> classMates;
 
 
-    public Child(String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
-        super(firstName, lastName, photoUrl, status, gender, age, state);
+    public Child(String id, String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
+        super(id,firstName, lastName, photoUrl, status, gender, age, state);
         classMates = new ArrayList<>();
     }
 

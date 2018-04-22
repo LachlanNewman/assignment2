@@ -18,6 +18,7 @@
                   <TextField fx:id="firstName" layoutX="25.0" layoutY="174.0" promptText="First Name" />
                   <TextField layoutX="25.0" layoutY="199.0" promptText="Last Name" />
                   <Button layoutX="25.0" layoutY="224.0" mnemonicParsing="false" onAction="#searchNetwork" prefHeight="25.0" prefWidth="149.0" text="Search" />
+                  <Button onAction="#navToAddNewProfile">Add New Profile</Button>
                </children>
             </AnchorPane>
          </items></SplitPane>

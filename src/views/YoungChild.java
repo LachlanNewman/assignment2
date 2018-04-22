@@ -3,8 +3,8 @@ package views;
 public class YoungChild extends Profile {
 
 
-    public YoungChild(String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
-        super(firstName, lastName, photoUrl, status, gender, age, state);
+    public YoungChild(String id, String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
+        super(id,firstName, lastName, photoUrl, status, gender, age, state);
     }
 
     @Override

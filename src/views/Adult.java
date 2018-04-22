@@ -7,8 +7,8 @@ public class Adult extends Profile {
     private ArrayList<Profile> colleagues;
     private ArrayList<Profile> classMates;
 
-    public Adult(String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
-        super(firstName, lastName, photoUrl, status, gender, age, state);
+    public Adult(String id, String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
+        super(id,firstName, lastName, photoUrl, status, gender, age, state);
         this.colleagues = new ArrayList<>();
         classMates = new ArrayList<>();
     }

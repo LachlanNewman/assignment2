@@ -8,16 +8,16 @@ public class Profile {
     private String id;
     private String firstName;
     private String lastName;
+    private int age;
     private String status;
     private String photoUrl;
     private Gender gender;
-    private int age;
     private State state;
 
     private ArrayList<Profile> friends;
 
-    public Profile(String firstName, String lastName, String photoUrl, String status,Gender gender, int age, State state) {
-        this.id = UUID.randomUUID().toString();
+    public Profile(String id,String firstName, String lastName, String photoUrl, String status,Gender gender, int age, State state) {
+        this.id =id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;

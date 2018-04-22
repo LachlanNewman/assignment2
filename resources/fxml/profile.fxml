@@ -4,12 +4,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfileController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
+            <Button onAction="#goBack"></Button>
+            <Text fx:id="profileType"/>
             <TextField fx:id="firstName"/>
             <TextField fx:id="lastName"/>
+            <TextField fx:id="age"/>
+            <TextField fx:id="status"/>
+            <Text fx:id="gender"/>
+            <Text fx:id="state"/>
+            <Button fx:id="profileAction"/>
+            <Button
+               text="DeleteProfile"
+               onAction="#deleteProfile"
+            />
          </children>
       </VBox>
    </children>
