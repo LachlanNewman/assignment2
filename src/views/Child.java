@@ -15,7 +15,7 @@ public class Child extends Profile {
     @Override
     public void addFriend(Profile friend) {
         if (Math.abs(this.getAge() - friend.getAge()) > 3) {
-            //throw age difference error
+            //throw ageField difference error
         } else if (this.getLastName() == friend.getLastName()) {
             //throw sameFamily Error
         } else {

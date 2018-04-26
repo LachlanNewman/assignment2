@@ -43,36 +43,52 @@ public class Network {
     }
 
 
-
-
+    /**
+     *
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param photoUrl
+     * @param status
+     * @param gender
+     * @param age
+     * @param state
+     */
     public void addProfile(String id, String firstName, String lastName, String photoUrl, String status, Gender gender, int age, State state) {
         Profile profile;
-        if (age > 16) {
-            profile = new Adult(id,firstName, lastName, photoUrl, status, gender, age, state);
-        } else if (age > 2) {
-            profile = new Child(id,firstName, lastName, photoUrl, status, gender, age, state);
-        } else {
-            profile = new YoungChild(id,firstName, lastName, photoUrl, status, gender, age, state);
-        }
+
+        if (age > 16)     profile = new Adult(id, firstName, lastName, photoUrl, status, gender, age, state     );
+        else if (age > 2) profile = new Child(id, firstName, lastName, photoUrl, status, gender, age, state     );
+        else              profile = new YoungChild(id, firstName, lastName, photoUrl, status, gender, age, state);
+
         network.put(profile.getId(),profile);
     }
 
     public Profile getProfile(String id) {
 
         for (Profile p : network.values())
-            if (p.getId().equals(id)) {
-                return p;
-            }
+            if (p.getId().equals(id)) return p;
         return null;
     }
 
-    public Map<String,Profile> searchNetwork(String firstName) {
+    /**
+     * Returns a new Map with the profiles of users whos data matches or contains the parameters
+     * pass from the network controller
+     * @param firstName
+     * @param lastName
+     * @return
+     */
+    public Map<String,Profile> searchNetwork(String firstName,String lastName) {
+        //TODO Search by genderField, stateField, min-max ageField
         Map<String,Profile> profiles = new HashMap<>();
+
         network.forEach((s, p) -> {
-            if(p.getFirstName().contains(firstName)){
-                profiles.put(s,p);
-            }
+            //if the profiles first name  contains the search string add it to the new profiles array
+            if(p.getFirstName().contains(firstName))  profiles.put(s,p);
+            //if the profiles last name contains the search string add it to the new profiles array
+            if(p.getLastName().contains(lastName)  )  profiles.put(s, p);
         });
+
         return profiles;
     }
 

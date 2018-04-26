@@ -6,21 +6,36 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainScene" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NetworkController">
+<?import javafx.scene.control.ScrollPane?>
+<AnchorPane
+        fx:id="mainScene"
+        prefHeight="400.0"
+        prefWidth="600.0"
+        xmlns="http://javafx.com/javafx/8.0.121"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.NetworkController"
+         stylesheets="/css/network.css">
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="618.0">
          <items>
+            <ScrollPane>
+               <content>
             <VBox fx:id="searchResults" prefHeight="200.0" prefWidth="100.0">
                <children>
                </children></VBox>
+               </content>
+            </ScrollPane>
+
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="firstName" layoutX="25.0" layoutY="174.0" promptText="First Name" />
-                  <TextField layoutX="25.0" layoutY="199.0" promptText="Last Name" />
+                  <TextField fx:id="firstNameField" layoutX="25.0" layoutY="174.0" promptText="First Name" />
+                  <TextField fx:id="lastNameField" layoutX="25.0" layoutY="199.0" promptText="Last Name" />
                   <Button layoutX="25.0" layoutY="224.0" mnemonicParsing="false" onAction="#searchNetwork" prefHeight="25.0" prefWidth="149.0" text="Search" />
-                  <Button onAction="#navToAddNewProfile">Add New Profile</Button>
+                  <Button layoutX="25.0" layoutY="249.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Add New Profile" onAction="#navToAddNewProfile" />
                </children>
             </AnchorPane>
-         </items></SplitPane>
+
+         </items>
+      </SplitPane>
    </children>
 </AnchorPane>

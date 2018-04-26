@@ -18,8 +18,6 @@ import views.Profile;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -31,37 +29,33 @@ public class NetworkController implements Initializable {
     @FXML
     private VBox searchResults;
     @FXML
-    private TextField firstName;
+    private TextField firstNameField;
     @FXML
-    private TextField lastName;
+    private TextField lastNameField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (Profile profile: network.getNetwork().values()){
-            searchResults.getChildren().add(new Text("First Name: " + profile.getFirstName()));
-            searchResults.getChildren().add(new Text("Last Name: " + profile.getLastName()));
-            searchResults.getChildren().add(new Text("Age: " + profile.getAge()));
-            Button veiwProfile = new Button("View Profile");
-            veiwProfile.setOnAction(event -> {
-                try {
-                    navToProfile(profile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            searchResults.getChildren().add(veiwProfile);
-        }
+        pushProfiles(network.getNetwork());
     }
 
 
     public void searchNetwork(ActionEvent actionEvent) {
         searchResults.getChildren().clear();
-        String _firstName = this.firstName.getText();
-        Map<String,Profile> profiles = this.network.searchNetwork(_firstName);
+
+        String firstName = this.firstNameField.getText();
+        String lastName  = this.lastNameField.getText();
+
+        Map<String,Profile> profiles = this.network.searchNetwork(firstName,lastName);
+        pushProfiles(profiles);
+    }
+
+    private void pushProfiles(Map<String, Profile> profiles) {
         for(Profile profile: profiles.values()){
+
             searchResults.getChildren().add(new Text("First Name: " + profile.getFirstName()));
-            searchResults.getChildren().add(new Text("Last Name: " + profile.getLastName()));
-            searchResults.getChildren().add(new Text("Age: " + profile.getAge()));
+            searchResults.getChildren().add(new Text("Last Name: "  + profile.getLastName() ));
+            searchResults.getChildren().add(new Text("Age: "        + profile.getAge()      ));
+
             Button veiwProfile = new Button("View Profile");
             veiwProfile.setOnAction(event -> {
                 try {
@@ -70,6 +64,7 @@ public class NetworkController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
             searchResults.getChildren().add(veiwProfile);
         }
     }
@@ -77,21 +72,19 @@ public class NetworkController implements Initializable {
     private void navToProfile(Profile profile) throws IOException {
 
         Stage stage = Main.getPrimaryStage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/edit_profile.fxml"));
         Parent root = (Parent)loader.load();
         ProfileController profileController = loader.<ProfileController>getController();
         profileController.setProfile(profile);
-        profileController.updateProfileButton();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     public void navToAddNewProfile(ActionEvent actionEvent) throws IOException {
         Stage stage = Main.getPrimaryStage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/new_profile.fxml"));
         Parent root = (Parent)loader.load();
-        ProfileController profileController = loader.<ProfileController>getController();
-        profileController.addProfileButton();
+        NewProfileController newProfileController = loader.<NewProfileController>getController();
         stage.setScene(new Scene(root));
         stage.show();
     }

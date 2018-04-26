@@ -1,85 +1,66 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import views.Network;
 import views.Profile;
 
 import java.io.IOException;
-import java.sql.Connection;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+//TODO view profile friends
+//TODO view profile relationships
 
 public class ProfileController {
 
 
-    public TextField firstName;
-    public Text profileType;
-    public TextField age;
-    public TextField lastName;
-    public TextField status;
-    public Text gender;
-    public Text state;
-    public Button profileAction;
+    public TextField firstNameField;
+    public TextField lastNameField;
+    public TextField ageField;
+    public TextField statusField;
+    public Text genderField;
+    public Text stateField;
     Profile profile;
 
     public void setProfile(Profile profile) {
         this.profile = profile;
-        firstName.setText(profile.getFirstName());
-        lastName.setText(profile.getLastName());
-        age.setText(profile.getAge() + "");
-        status.setText(profile.getStatus());
-        gender.setText(profile.getGender().getGender());
-        state.setText(profile.getState().getState());
+        firstNameField.setText(profile.getFirstName());
+        lastNameField.setText(profile.getLastName());
+        ageField.setText(profile.getAge() + "");
+        statusField.setText(profile.getStatus());
+        genderField.setText(profile.getGender().getGender());
+        stateField.setText(profile.getState().getState());
     }
 
     public void updateProfile() {
-        this.profile.setFirstName(firstName.getText());
-        this.profile.setLastName(lastName.getText());
-        this.profile.setAge(Integer.parseInt(age.getText()));
-        this.profile.setStatus(status.getText());
-        String update = "UPDATE PROFILES "
-        + "SET "
-        + "firstName = '" + profile.getFirstName() + "'"
-        + " WHERE id = " + profile.getId() + ";";
+        //TODO update state
+        String firstName = firstNameField.getText();
+        String lastName  = lastNameField.getText();
+        String status    = statusField.getText();
 
-        Main.updateConnection(update);
+        int age = Integer.parseInt(ageField.getText());
+        int id = Integer.parseInt(profile.getId());
+
+        Main.updateConnection(id,firstName,lastName,age,status);
     }
 
     public void deleteProfile(ActionEvent actionEvent) {
     }
 
     public void goBack(ActionEvent actionEvent) {
-        Stage stage = Main.getPrimaryStage();
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/network.fxml"));
+            Stage stage = Main.getPrimaryStage();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/network.fxml"));
+            stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setScene(new Scene(root, 300, 275));
     }
-
-    public void updateProfileButton(){
-        profileAction = new Button("Update Profile");
-        profileAction.setOnAction(event -> {
-            updateProfile();
-        });
-    }
-
-    public void addProfileButton() {
-        profileAction = new Button("Add Profile");
-        profileAction.setOnAction(event -> {
-            addProfile();
-        });
-    }
-
-    private void addProfile() {
-    }
-
 }
