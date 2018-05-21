@@ -7,7 +7,7 @@ import java.io.*;
 import java.sql.*;
 
 public class Database {
-    private static final String DB_CONNECTION = "jdbc:sqlite:data/socialnetwork.db";
+    private static final String DB_CONNECTION = "jdbc:sqlite:socialnetwork.db";
     private static final String DB_PROFILES = "SELECT * FROM PROFILE";
     private static final String DB_RELATIONSHIPS = "SELECT * FROM RELATIONSHIP";
     private static final String PROFILES_INSERT_SQL = "INSERT INTO PROFILE(name, photoUrl, status, gender, age, state ) VALUES(?, ?, ?, ?, ?, ?)";
