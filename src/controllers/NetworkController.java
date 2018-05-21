@@ -1,16 +1,14 @@
 package controllers;
 
+import config.Navigation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import views.Network;
 
 import javafx.scene.control.TextField;
@@ -21,20 +19,19 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class NetworkController implements Initializable {
+public class NetworkController implements Initializable, Navigation.Nav {
 
     public AnchorPane mainScene;
-    private Network network = new Network(Main.getConnection());
+    private Network network;
 
     @FXML
     private VBox searchResults;
     @FXML
-    private TextField firstNameField;
-    @FXML
-    private TextField lastNameField;
+    private TextField nameSearchField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        network = new Network();
         pushProfiles(network.getNetwork());
     }
 
@@ -42,50 +39,40 @@ public class NetworkController implements Initializable {
     public void searchNetwork(ActionEvent actionEvent) {
         searchResults.getChildren().clear();
 
-        String firstName = this.firstNameField.getText();
-        String lastName  = this.lastNameField.getText();
+        String name  = this.nameSearchField.getText();
 
-        Map<String,Profile> profiles = this.network.searchNetwork(firstName,lastName);
+        Map<String,Profile> profiles = this.network.searchNetwork(name);
         pushProfiles(profiles);
     }
 
     private void pushProfiles(Map<String, Profile> profiles) {
-        for(Profile profile: profiles.values()){
+        if(!profiles.equals(null)) {
+            for (Profile profile : profiles.values()) {
+                Group profileBox = new Group();
+                VBox profileContainer = new VBox();
 
-            searchResults.getChildren().add(new Text("First Name: " + profile.getFirstName()));
-            searchResults.getChildren().add(new Text("Last Name: "  + profile.getLastName() ));
-            searchResults.getChildren().add(new Text("Age: "        + profile.getAge()      ));
+                Text nameField = new Text("Name: " + profile.getName());
+                Text ageField = new Text("Age: " + profile.getAge());
+                Text statusField = new Text("Status: " + profile.getStatus());
+                Text stateField = new Text("State: " + profile.getState().name());
 
-            Button veiwProfile = new Button("View Profile");
-            veiwProfile.setOnAction(event -> {
-                try {
-                    navToProfile(profile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+                Button veiwProfile = new Button("View Profile");
+                veiwProfile.setOnAction(event -> {
+                    try {
+                        navToProfile(profile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 
-            searchResults.getChildren().add(veiwProfile);
+                profileContainer.getChildren().addAll(nameField,ageField,statusField,stateField,veiwProfile);
+                profileBox.getChildren().add(profileContainer);
+                searchResults.getChildren().addAll(profileBox);
+            }
         }
     }
 
-    private void navToProfile(Profile profile) throws IOException {
+    private void navToProfile(Profile profile) throws IOException { navigation.navToProfile(profile);}
 
-        Stage stage = Main.getPrimaryStage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/edit_profile.fxml"));
-        Parent root = (Parent)loader.load();
-        ProfileController profileController = loader.<ProfileController>getController();
-        profileController.setProfile(profile);
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    public void navToAddNewProfile(ActionEvent actionEvent) throws IOException {
-        Stage stage = Main.getPrimaryStage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/new_profile.fxml"));
-        Parent root = (Parent)loader.load();
-        NewProfileController newProfileController = loader.<NewProfileController>getController();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
+    public void navToAddNewProfile() throws IOException { navigation.navToAddNewProfile();}
 }

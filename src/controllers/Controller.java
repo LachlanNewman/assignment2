@@ -1,5 +1,6 @@
 package controllers;
 
+import config.Navigation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -17,26 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextField;
 
-public class Controller implements Initializable {
-
-    @FXML
-    private AnchorPane mainScene;
-    @FXML
-    private TextField _firstName;
-    public void searchNetwork(){
-        System.out.println(_firstName.getText());
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+public class Controller implements Navigation.Nav{
 
     public void navToNetwork(ActionEvent actionEvent) throws IOException {
-        Stage stage = Main.getPrimaryStage();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/network.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();
-
+        Navigation.Nav.navigation.navToNetwork();
     }
 }

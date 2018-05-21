@@ -1,25 +1,25 @@
 package views;
 
+import config.Exceptions;
+import views.enums.Gender;
+import views.enums.Relationship;
+import views.enums.State;
+
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class Profile {
+public abstract class Profile {
 
-    private String id;
-    private String firstName;
-    private String lastName;
-    private int age;
-    private String status;
+    public final static int MAX_AGE = 150;
+
+    private String name;
     private String photoUrl;
+    private String status;
     private Gender gender;
+    private int age;
     private State state;
 
-    private ArrayList<Profile> friends;
-
-    public Profile(String id,String firstName, String lastName, String photoUrl, String status,Gender gender, int age, State state) {
-        this.id =id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Profile(String name, String photoUrl, String status, Gender gender, int age, State state) {
+        this.name = name;
         this.status = status;
         this.photoUrl = photoUrl;
         this.gender = gender;
@@ -27,16 +27,9 @@ public class Profile {
         this.state = state;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public String getStatus() {
@@ -59,16 +52,8 @@ public class Profile {
         return state;
     }
 
-    public ArrayList<Profile> getFriends() {
-        return friends;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setStatus(String status) {
@@ -91,7 +76,11 @@ public class Profile {
         this.state = state;
     }
 
-    public void addFriend(Profile friend) {
-        this.friends.add(friend);
-    }
+    public abstract ArrayList<Profile> getRelationShips(Relationship  relationshipType);
+
+    public abstract void addRelationship(Profile relationship, Relationship relationshipType) throws Exceptions.NotToBeFriendsException, Exceptions.TooYoungException, Exceptions.NotToBeColleaguesException, Exceptions.NotToBeClassmatesException, Exceptions.NoAvailableException, Exceptions.NotToBeCoupledException, Exceptions.NoParentException;
+
+    public abstract void removeRelationship(Profile relationship, Relationship relationshipType) throws Exceptions.NoParentException;
+
+
 }

@@ -1,8 +1,21 @@
-import controllers.Main;
+import config.Database;
+import config.Navigation;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Mininet {
+public class Mininet extends Application{
 
     public static void main(String[] args) {
-        Main.main(new String[]{"start"});
+        launch(args);
     }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        if(Database.tryConnnection()) {
+            Navigation navigation = new Navigation();
+            navigation.setStage(primaryStage);
+            navigation.navToMain();
+        }
+    }
+
 }
