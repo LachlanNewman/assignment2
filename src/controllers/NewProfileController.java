@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 public class NewProfileController implements Initializable, Navigation.Nav {
 
     private boolean isChild = false;
+    private String photoUrl;
 
     @FXML
     private TextField firstNameField;
@@ -60,7 +61,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
 
         //set the gender to be unknown
         gender = Gender.valueOf("U");
-
+        photoUrl = "";
         //
         //set the parents field
         Network.getNetwork().forEach((s, profile) -> {
@@ -206,10 +207,8 @@ public class NewProfileController implements Initializable, Navigation.Nav {
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(new Stage());
         try {
-            String imagepath = null;
-            imagepath = file.toURI().toURL().toString();
-            System.out.println("file:" + imagepath);
-            Image image = new Image(imagepath);
+            photoUrl = file.toURI().toURL().toString();
+            Image image = new Image(photoUrl);
             profileImg.setImage(image);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -218,8 +217,6 @@ public class NewProfileController implements Initializable, Navigation.Nav {
             alert.setHeaderText("Please Select a File");
             /*alert.setContentText("You didn't select a file!");*/
             alert.showAndWait();
-        }catch (NullPointerException e){
-
         }
     }
 }
