@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import views.Network;
 
@@ -60,7 +61,7 @@ public class NetworkController implements Initializable, Navigation.Nav {
                 catch (IllegalArgumentException e) {
                     imgDisplay = new Text("Image Not Found");
                 }
-                        Text nameField = new Text("Name: " + profile.getName());
+                Text nameField = new Text("Name: " + profile.getName());
                 Text ageField = new Text("Age: " + profile.getAge());
                 Text statusField = new Text("Status: " + profile.getStatus());
                 Text stateField = new Text("State: " + profile.getState().name());

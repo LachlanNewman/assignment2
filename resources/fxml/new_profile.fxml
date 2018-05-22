@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <GridPane prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewProfileController">
     <columnConstraints>
@@ -21,8 +22,8 @@
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="303.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="369.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="404.0" minHeight="10.0" prefHeight="404.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
@@ -93,7 +94,13 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
+                <Text fx:id="uploadError" fill="red">
+                <VBox.margin>
+                    <Insets top="10.0" />
+                </VBox.margin>
+                </Text>
             </children>
         </VBox>
+      <Button mnemonicParsing="false" text="Go Back to Network" onAction="#goBack" />
     </children>
 </GridPane>

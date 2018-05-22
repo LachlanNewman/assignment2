@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import views.Adult;
@@ -32,6 +33,8 @@ public class NewProfileController implements Initializable, Navigation.Nav {
     private String photoUrl;
 
     @FXML
+    private Text uploadError;
+    @FXML
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;
@@ -44,9 +47,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
     @FXML
     private Button newProfileButton;
     @FXML
-    private CheckBox femaleCheckbox;
-    @FXML
-    private CheckBox maleCheckBox;
+    private CheckBox femaleCheckbox,maleCheckBox;
     @FXML
     private TextField statusField;
     @FXML
@@ -97,7 +98,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
                     Database.insertRelationShips(name,parents.get(0).getName(),Relationship.PARENT);
                     Database.insertRelationShips(name,parents.get(1).getName(),Relationship.PARENT);
                 } else {
-                    //todo dispaly error message
+                    uploadError.setText("Error Requires Parents");
                 }
             } else {
                 Network.addProfile(name, "", status, gender, age, state);
@@ -108,6 +109,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
     }
 
 
+    @FXML
     private void goBack() throws IOException {
         navigation.navToNetwork();
     }
@@ -144,11 +146,12 @@ public class NewProfileController implements Initializable, Navigation.Nav {
                 parentsVisible(false);
             }
         } catch (NumberFormatException e) {
-            //TODO display warning error
             parentsVisible(false);
+            uploadError.setText("age must be a number");
         } catch (Exceptions.NoSuchAgeException e) {
             parentsVisible(false);
             age = null;
+            uploadError.setText(e.getMessage());
         } finally {
             return age;
         }
@@ -176,11 +179,11 @@ public class NewProfileController implements Initializable, Navigation.Nav {
 
     private ArrayList<Profile> checkParentFields() {
         ArrayList<Profile> parents = null;
-        Adult parentA = (Adult) Network.getProfile(parentFieldA.getValue().toString());
+        try {
+            Adult parentA = (Adult) Network.getProfile(parentFieldA.getValue().toString());
         Adult parentB = (Adult) Network.getProfile(parentFieldB.getValue().toString());
         Adult parentA_Spouse = (Adult) parentA.getRelationShips(Relationship.SPOUSE).get(0);
         Adult parentB_Spouse = (Adult) parentB.getRelationShips(Relationship.SPOUSE).get(0);
-        try {
             //check make sure the parents are not the same
             if (parentA.equals(parentB)) {
                 throw new Exceptions.NoParentException("Parents cannot be the same person");
@@ -194,9 +197,9 @@ public class NewProfileController implements Initializable, Navigation.Nav {
                 parents.add(parentB);
             }
         } catch (Exceptions.NoParentException e) {
-            //Todo display warning
+            uploadError.setText(e.getMessage());
         } catch (NullPointerException e) {
-            //todo display waringin that needs parents
+            uploadError.setText("Parents are required for children");
         } finally {
             return parents;
         }
@@ -205,6 +208,9 @@ public class NewProfileController implements Initializable, Navigation.Nav {
     public void uploadImage(ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files",
+                        "*.bmp", "*.png", "*.jpg", "*.gif")); // limit chooser options to image files
         File file = chooser.showOpenDialog(new Stage());
         try {
             photoUrl = file.toURI().toURL().toString();

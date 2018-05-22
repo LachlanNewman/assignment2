@@ -3,10 +3,14 @@ package controllers;
 import config.Database;
 import config.Exceptions;
 import config.Navigation;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -23,22 +27,33 @@ public class RelationShipController implements Navigation.Nav {
     @FXML
     private VBox profileSearchContainer;
     @FXML
-    Text profileTypeField, nameFieldProfile, ageFieldProfile, genderFieldProfile, stateFieldProfile, statusFieldProfile, errorMessage;
+    private ImageView profileImg;
     @FXML
-    private Button addChildrenButton, addSpouseButton, addFriendButton, addColleagueButton, addClassMateButton;
+    Text profileTypeField, nameFieldProfile, ageFieldProfile, genderFieldProfile, stateFieldProfile, statusFieldProfile, errorMessage,errorImg;
+    @FXML
+    private CheckBox showFamily,showFriends,showColleages,showClassMates;
 
     private Profile profile;
 
     public void initController(Profile profile) {
         this.profile = profile;
-
-        //todo show image
-        profileTypeField.setText(profile.getClass().toString());
+        try {
+            profileImg.setImage(new Image(profile.getPhotoUrl()));
+        }
+        catch (IllegalArgumentException e){
+            errorImg.setText("No Image");
+        }
+        profileTypeField.setText(profile.getClass().getName());
         nameFieldProfile.setText(profile.getName());
         ageFieldProfile.setText("Age:" + profile.getAge() + "");
         genderFieldProfile.setText("Gender: " + profile.getGender().name());
         stateFieldProfile.setText("State: " + profile.getState().name());
+        setRelationshipsContainer();
 
+
+    }
+
+    private void pushAll() {
         //show parents
         pushParents();
         //show spouse
@@ -49,8 +64,6 @@ public class RelationShipController implements Navigation.Nav {
         pushClassMates();
         //show friedns
         pushFriends();
-
-
     }
 
     public void addSpouseAction() {
@@ -100,16 +113,12 @@ public class RelationShipController implements Navigation.Nav {
     private void pushProfileSearchContainer(Profile profile, Relationship relationship) {
         Group profileContainer = new Group();
         VBox profileBox = new VBox();
-        /*
+        Node imgDisplay;
         try {
-            ImageView profileImg = new ImageView(new Image(new FileInputStream(profile.getPhotoUrl())));
-            profileBox.getChildren().add(profileImg);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Text profileImg = new Text("No Profile Image");
-            profileBox.getChildren().add(profileImg);
+            imgDisplay = new ImageView(new Image(profile.getPhotoUrl()));
+        } catch (IllegalArgumentException e) {
+            imgDisplay = new Text("No Profile Image");
         }
-        */
         Text nameText = new Text("Name: " + profile.getName());
         Text ageText = new Text("Age: " + profile.getAge() + "");
         Text statusText = new Text("Status: " + profile.getStatus());
@@ -120,6 +129,7 @@ public class RelationShipController implements Navigation.Nav {
             addRelationship(relationship, profileContainer, profile);
         });
         profileBox.getChildren().addAll(
+                imgDisplay,
                 nameText,
                 ageText,
                 statusText,
@@ -184,6 +194,7 @@ public class RelationShipController implements Navigation.Nav {
             relationShipContainer.getChildren().add(relationshipHolder);
             profileSearchContainer.getChildren().remove(profileContainer);
             Database.insertRelationShips(this.profile.getName(), profile.getName(), relationship);
+            setRelationshipsContainer();
         } catch (Exceptions.NotToBeFriendsException e) {
             errorMessage.setText(e.getMessage());
         } catch (Exceptions.TooYoungException e) {
@@ -207,14 +218,12 @@ public class RelationShipController implements Navigation.Nav {
     private Group getProfileContainer(Profile profile, Relationship relationship) {
         Group profileContainer = new Group();
         VBox profileBox = new VBox();
-        /*try {
-            ImageView profileImg = new ImageView(new Image(new FileInputStream(profile.getPhotoUrl())));
-            profileBox.getChildren().add(profileImg);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Text profileImg = new Text("No Profile Image");
-            profileBox.getChildren().add(profileImg);
-        }*/
+        Node imgDisplay;
+        try {
+            imgDisplay = new ImageView(new Image(profile.getPhotoUrl()));
+        } catch (IllegalArgumentException e) {
+            imgDisplay = new Text("No Profile Image");
+        }
         Text nameText = new Text("Name: " + profile.getName());
         Text ageText = new Text("Age: " + profile.getAge() + "");
         Text statusText = new Text("Status: " + profile.getStatus());
@@ -225,6 +234,7 @@ public class RelationShipController implements Navigation.Nav {
             removeRelationShip(profileContainer, profile, relationship);
         });
         profileBox.getChildren().addAll(
+                imgDisplay,
                 nameText,
                 ageText,
                 statusText,
@@ -254,5 +264,31 @@ public class RelationShipController implements Navigation.Nav {
     public void goBack() throws IOException {
         navigation.navToProfile(profile);
     }
+
+    public void setRelationshipsContainer() {
+        relationShipContainer.getChildren().clear();
+        if(!showFamily.isSelected() && !showFriends.isSelected() && !showColleages.isSelected() && !showClassMates.isSelected()){
+            pushParents();
+            pushSpouse();
+            pushFriends();
+            pushClassMates();
+            pushColleagues();
+        }
+        else {
+            if (showFamily.isSelected()) {
+                pushParents();
+                pushSpouse();
+            }
+            if (showFriends.isSelected()) {
+                pushFriends();
+            }
+            if (showClassMates.isSelected()) {
+                pushClassMates();
+            }
+            if (showColleages.isSelected()) {
+                pushColleagues();
+            }
+        }
+        }
 }
 

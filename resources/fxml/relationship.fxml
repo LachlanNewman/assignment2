@@ -29,10 +29,8 @@
       <VBox prefHeight="775.0" prefWidth="217.0" BorderPane.alignment="CENTER">
          <children>
              <ImageView fx:id="profileImg" fitHeight="91.0" fitWidth="95.0">
-                 <image>
-                     <Image url="@../images/avatar.png" />
-                 </image>
              </ImageView>
+             <Text fx:id="errorImg" fill="red"></Text>
              <Text fx:id="profileTypeField" />
              <Text fx:id="nameFieldProfile" />
              <Text fx:id="ageFieldProfile" />
@@ -44,12 +42,10 @@
             <Button fx:id="addFriendButton" onAction="#addFriendAction" text="Add Friend" />
             <Button fx:id="addColleagueButton" onAction="#addColleagueAction" text="Add Colleague" />
             <Button fx:id="addClassMateButton" onAction="#addClassMateAction" text="Add Classmate" />
-            <CheckBox mnemonicParsing="false" text="Spouse" />
-            <CheckBox mnemonicParsing="false" text="Children" />
-            <CheckBox mnemonicParsing="false" text="Parents" />
-            <CheckBox mnemonicParsing="false" text="Friends" />
-            <CheckBox mnemonicParsing="false" text="Colleagues" />
-            <CheckBox mnemonicParsing="false" text="Classmates" />
+            <CheckBox mnemonicParsing="false" text="Show Family" fx:id="showFamily" onAction="#setRelationshipsContainer"/>
+            <CheckBox mnemonicParsing="false" text="Show Friends" fx:id="showFriends" onAction="#setRelationshipsContainer" />
+            <CheckBox mnemonicParsing="false" text="Show Colleagues" fx:id="showColleages" onAction="#setRelationshipsContainer" />
+            <CheckBox mnemonicParsing="false" text="Show Classmates" fx:id="showClassMates" onAction="#setRelationshipsContainer" />
          </children>
          <padding>
             <Insets left="10.0" top="125.0" />
