@@ -68,7 +68,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
         });
     }
 
-    public void addNewProfile(ActionEvent actionEvent) throws IOException {
+    public void addNewProfile(ActionEvent actionEvent) throws IOException, Exceptions.NoParentException, Exceptions.NoAvailableException {
 
         String name = checkNameField();
         Integer age = checkAgeField();

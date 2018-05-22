@@ -5,8 +5,7 @@ public enum Relationship {
     COLLEAGUE("colleague"),
     CLASSMATE("classmate"),
     SPOUSE("couple"),
-    PARENT("parent"),
-    CHILD("child");
+    PARENT("parent");
 
     private String relationshipType;
 

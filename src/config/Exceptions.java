@@ -5,12 +5,12 @@ public class Exceptions {
     public static final String NOT_TO_BE_FRIENDS_EXCEPTION = "Age difference is to great";
     public static final String NOT_TO_BE_COLLEAGUES_EXCEPTION = "Not to be colllegaues";
     public static final String NOT_TO_BE_CLASSMATE_EXCEPTION = "Cannot be classmate";
+    public static final String NOT_COUPLED_EXCEPTION = "This profile has no spouse";
     public static final String NOT_TO_BE_COUPLED_EXCEPTION = "Cannot be coupled";
     public static final String NO_PARENT_EXCEPTION = "Cannot be parent";
     public static final String NO_AVAILABLE_EXCEPTION = "Not available";
     public static final String NO_SUCH_AGE_EXCEPTION = "Invalid age";
     public static final String TOO_YOUNG_EXCEPTION = "Too Youg";
-
 
     public static class TooYoungException extends Throwable {
         public TooYoungException(String e) {
@@ -59,4 +59,11 @@ public class Exceptions {
             super(e);
         }
     }
+
+    public static class NotCoupledException extends Throwable {
+        public NotCoupledException(String e) {
+            super(e);
+        }
+    }
+
 }

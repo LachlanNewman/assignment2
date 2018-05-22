@@ -16,6 +16,10 @@ public class Mininet extends Application{
             navigation.setStage(primaryStage);
             navigation.navToMain();
         }
+        else {
+            System.out.println("could not connect the database");
+            System.exit(0);
+        }
     }
 
 }

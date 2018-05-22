@@ -1,10 +1,14 @@
 package config;
 
+import views.Network;
 import views.Profile;
+import views.enums.Gender;
 import views.enums.Relationship;
+import views.enums.State;
 
 import java.io.*;
 import java.sql.*;
+
 
 public class Database {
     private static final String DB_CONNECTION = "jdbc:sqlite:socialnetwork.db";
@@ -119,16 +123,49 @@ public class Database {
         }
     }
 
-    public static ResultSet getProfiles() throws SQLException {
+    public static void getProfiles() throws SQLException {
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(DB_PROFILES);
-            return  results;
+        while (results.next()) {
+            Network.addProfile(
+                    results.getString("name"),
+                    results.getString("photoUrl"),
+                    results.getString("status"),
+                    Gender.valueOf(results.getString("gender")),
+                    results.getInt("age"),
+                    State.valueOf(results.getString("state"))
+            );
+        }
     }
 
-    public static ResultSet getRelationships() throws SQLException {
+    public static void getRelationships() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet results = statement.executeQuery(DB_RELATIONSHIPS);
-        return results;
+        while (results.next()) {
+            String nameA = results.getString("nameA");
+            String nameB = results.getString("nameB");
+            Relationship relationship = Relationship.fromString(results.getString("relationship"));
+            try {
+                Network.getNetwork().get(nameA).addRelationship(Network.getNetwork().get(nameB), relationship);
+                Network.getNetwork().get(nameB).addRelationship(Network.getNetwork().get(nameA), relationship);
+            } catch (Exceptions.TooYoungException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NotToBeFriendsException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NotToBeColleaguesException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NoAvailableException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NotToBeClassmatesException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NotToBeCoupledException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NoParentException e) {
+                e.printStackTrace();
+            } catch (Exceptions.NotCoupledException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void updateProfilesTable(Profile profile) {

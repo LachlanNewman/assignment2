@@ -12,65 +12,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Profile Class
+ * @version 1.0
+ * @author Lachlan Newman s3691320
+ *
+ *
+ */
 public class Network {
 
-    private static Map<String, Profile> network;
-    private static boolean dbFlag = false;
+    private static Map<String, Profile> network;    /*holds network profiles */
+    private static boolean dbFlag = false;          /* use to inform class that the network has been read from database */
 
+    /**
+     * Contructor for class Network
+     */
     public Network() {
-        if (!dbFlag) {
+        if (!dbFlag)
             network = new HashMap<>();
             try {
-                readProfiles();
-                readRelationships();
+                Database.getProfiles();
+                Database.getRelationships();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             dbFlag = true;
-        }
     }
 
-    private void readProfiles() throws SQLException {
-        ResultSet results = Database.getProfiles();
-        while (results.next()) {
-            addProfile(
-                    results.getString("name"),
-                    results.getString("photoUrl"),
-                    results.getString("status"),
-                    Gender.valueOf(results.getString("gender")),
-                    results.getInt("age"),
-                    State.valueOf(results.getString("state"))
-            );
-        }
-    }
-
-    private void readRelationships() throws SQLException {
-        ResultSet results = Database.getRelationships();
-        while (results.next()) {
-            String nameA = results.getString("nameA");
-            String nameB = results.getString("nameB");
-            Relationship relationship = Relationship.fromString(results.getString("relationship"));
-            try {
-                network.get(nameA).addRelationship(network.get(nameB), relationship);
-                network.get(nameB).addRelationship(network.get(nameA), relationship);
-            } catch (Exceptions.TooYoungException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NotToBeFriendsException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NotToBeColleaguesException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NoAvailableException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NotToBeClassmatesException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NotToBeCoupledException e) {
-                e.printStackTrace();
-            } catch (Exceptions.NoParentException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    /**
+     * Adds a profile the network of type depending on age
+     * @param name
+     * @param photoUrl
+     * @param status
+     * @param gender
+     * @param age
+     * @param state
+     */
     public static void addProfile(String name, String photoUrl, String status, Gender gender, int age, State state) {
         Profile profile;
         if (age < Child.MIN_AGE) profile = new YoungChild(name, photoUrl, status, gender, age, state);
@@ -79,7 +56,20 @@ public class Network {
         network.put(profile.getName(), profile);
     }
 
-    public static void addProfile(String name, String photoUrl, String status, Gender gender, int age, State state, ArrayList<Profile> parents) {
+    /**
+     * Add a new profile to the network where the profile is a child an has been inserted byb the user
+     * not the database
+     * @param name
+     * @param photoUrl
+     * @param status
+     * @param gender
+     * @param age
+     * @param state
+     * @param parents
+     * @throws Exceptions.NoParentException
+     * @throws Exceptions.NoAvailableException
+     */
+    public static void addProfile(String name, String photoUrl, String status, Gender gender, int age, State state, ArrayList<Profile> parents) throws Exceptions.NoParentException, Exceptions.NoAvailableException {
         Profile profile;
         if (age < Child.MIN_AGE) profile = new YoungChild(name, photoUrl, status, gender, age, state, parents);
         else profile = new Child(name, photoUrl, status, gender, age, state, parents);
@@ -104,19 +94,36 @@ public class Network {
         return profiles;
     }
 
+    /**
+     * return the network opf profiles
+     * @return
+     */
     public static Map<String, Profile> getNetwork() {
         return network;
     }
 
+    /**
+     * delete a profile from the network
+     * @param profile
+     */
     public static void deleteProfile(Profile profile) {
         network.remove(profile.getName());
     }
 
+    /**
+     * update a profile in the network
+     * @param profile
+     */
     public static void updateProfile(Profile profile) {
         network.put(profile.getName(), profile);
     }
 
-    public static Profile getProfile(String s) {
-        return network.get(s);
+    /**
+     * get a profile from the network
+     * @param name
+     * @return
+     */
+    public static Profile getProfile(String name) {
+        return network.get(name);
     }
 }

@@ -132,8 +132,9 @@ public abstract class Profile {
     /**
      *
      * @param relationshipType
-     * @return ArrayList of relationships for the profile based on the relationshipType and
-     * the instance of the profile
+     * ArrayList of relationships for the profile based on the relationshipType and
+     * the instance of the profile, will return null if not a corrent relationship type or
+     * the there are not relationships of this type in the profile
      */
     public abstract ArrayList<Profile> getRelationShips(Relationship  relationshipType);
 
@@ -143,7 +144,15 @@ public abstract class Profile {
      * Add a new reationship depending on the instance of profile
      * and the type of Relationship
      */
-    public abstract void addRelationship(Profile relationship, Relationship relationshipType) throws Exceptions.NotToBeFriendsException, Exceptions.TooYoungException, Exceptions.NotToBeColleaguesException, Exceptions.NotToBeClassmatesException, Exceptions.NoAvailableException, Exceptions.NotToBeCoupledException, Exceptions.NoParentException;
+    public abstract void addRelationship(Profile relationship, Relationship relationshipType) throws
+            Exceptions.NotToBeFriendsException,
+            Exceptions.TooYoungException,
+            Exceptions.NotToBeColleaguesException,
+            Exceptions.NotToBeClassmatesException,
+            Exceptions.NoAvailableException,
+            Exceptions.NotToBeCoupledException,
+            Exceptions.NoParentException,
+            Exceptions.NotCoupledException;
 
     /**
      *

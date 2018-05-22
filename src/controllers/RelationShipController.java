@@ -39,8 +39,6 @@ public class RelationShipController implements Navigation.Nav {
         genderFieldProfile.setText("Gender: " + profile.getGender().name());
         stateFieldProfile.setText("State: " + profile.getState().name());
 
-        //show children
-        pushChildren();
         //show parents
         pushParents();
         //show spouse
@@ -149,14 +147,6 @@ public class RelationShipController implements Navigation.Nav {
 
     }
 
-    private void pushChildren() {
-        try {
-            profile.getRelationShips(Relationship.CHILD).forEach(p -> pushProfile(p, Relationship.CHILD));
-        } catch (NullPointerException e) {
-        }
-
-    }
-
     private void pushClassMates() {
         try {
             profile.getRelationShips(Relationship.CLASSMATE).forEach(p -> pushProfile(p, Relationship.CLASSMATE));
@@ -207,6 +197,8 @@ public class RelationShipController implements Navigation.Nav {
         } catch (Exceptions.NotToBeCoupledException e) {
             errorMessage.setText(e.getMessage());
         } catch (Exceptions.NoParentException e) {
+            e.printStackTrace();
+        } catch (Exceptions.NotCoupledException e) {
             e.printStackTrace();
         }
     }

@@ -6,13 +6,30 @@ import views.Profile;
 
 import java.util.ArrayList;
 
+/**
+ * Profile Class
+ * @version 1.0
+ * @author Lachlan Newman s3691320
+ */
 public interface Friend {
 
-    public static final int FRIEND_AGE_DIFFERENCE = 3;
+    /*Minimum age difference for Child friends */
+    int CHILD_AGE_DIFFERENCE = 3;
 
-    public ArrayList<Profile> getFriends();
+    /**
+     * @return ArrayList<Profile> containing the implementing profiles Friends
+     */
+    ArrayList<Profile> getFriends();
 
-    public void addFriend(Profile friend) throws Exceptions.NotToBeFriendsException, Exceptions.TooYoungException;
+    /**
+     * @param friend
+     * Adds a Profile to the the ArrayList friends
+     */
+    void addFriend(Profile friend) throws Exceptions.NotToBeFriendsException, Exceptions.TooYoungException;
 
-    public void removeFriend(Profile friend);
+    /**
+     * @param friend
+     * Removes a Profile from the ArrayList friend
+     */
+    void removeFriend(Profile friend);
 }
