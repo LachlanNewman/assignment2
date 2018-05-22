@@ -53,7 +53,7 @@ public class Database {
             readPeopleTextFileIntoDatabase();
             readRelationsTextFileIntoDatabase();
             return true;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println(e);
             return false;
         }
