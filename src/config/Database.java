@@ -11,7 +11,7 @@ import java.sql.*;
 
 
 public class Database {
-    private static final String DB_CONNECTION = "jdbc:sqlite:socialnetwork.db";
+    private static final String DB_CONNECTION = "jdbc:sqlite:socialnetwork";
     private static final String DB_PROFILES = "SELECT * FROM PROFILE";
     private static final String DB_RELATIONSHIPS = "SELECT * FROM RELATIONSHIP";
     private static final String PROFILES_INSERT_SQL = "INSERT INTO PROFILE(name, photoUrl, status, gender, age, state ) VALUES(?, ?, ?, ?, ?, ?)";
@@ -26,10 +26,35 @@ public class Database {
         connection = null;
         try {
             connection = DriverManager.getConnection(DB_CONNECTION);
+            connection.prepareStatement("DROP TABLE IF EXISTS RELATIONSHIP;").execute();
+            connection.prepareStatement("DROP TABLE IF EXISTS PROFILE;").execute();
+            connection.prepareStatement("create table RELATIONSHIP\n" +
+                    "(\n" +
+                    "  nameA        text not null\n" +
+                    "    references PROFILE,\n" +
+                    "  nameB        text not null\n" +
+                    "    references PROFILE,\n" +
+                    "  relationship text not null\n" +
+                    "    references RELATIONSHIPTYPES,\n" +
+                    "  primary key (nameA, nameB, relationship)\n" +
+                    ");\n").execute();
+
+            connection.prepareStatement("create table PROFILE\n" +
+                    "(\n" +
+                    "  name     text not null\n" +
+                    "    primary key,\n" +
+                    "  photoUrl text,\n" +
+                    "  status   text,\n" +
+                    "  gender   text not null,\n" +
+                    "  age      int  not null,\n" +
+                    "  state    text not null\n" +
+                    ");\n").execute();
+            
             readPeopleTextFileIntoDatabase();
             readRelationsTextFileIntoDatabase();
             return true;
         } catch (SQLException e) {
+            System.out.println(e);
             return false;
         }
     }
