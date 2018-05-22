@@ -6,10 +6,11 @@ import config.Navigation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import views.Adult;
 import views.Profile;
 import views.enums.Gender;
@@ -17,7 +18,10 @@ import views.Network;
 import views.enums.Relationship;
 import views.enums.State;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -48,6 +52,7 @@ public class NewProfileController implements Initializable, Navigation.Nav {
     private ComboBox parentFieldA;
     @FXML
     private ComboBox parentFieldB;
+    @FXML  private ImageView profileImg;
 
 
     @Override
@@ -193,6 +198,28 @@ public class NewProfileController implements Initializable, Navigation.Nav {
             //todo display waringin that needs parents
         } finally {
             return parents;
+        }
+    }
+
+    public void uploadImage(ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open File");
+        File file = chooser.showOpenDialog(new Stage());
+        try {
+            String imagepath = null;
+            imagepath = file.toURI().toURL().toString();
+            System.out.println("file:" + imagepath);
+            Image image = new Image(imagepath);
+            profileImg.setImage(image);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Please Select a File");
+            /*alert.setContentText("You didn't select a file!");*/
+            alert.showAndWait();
+        }catch (NullPointerException e){
+
         }
     }
 }

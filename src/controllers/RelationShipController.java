@@ -250,9 +250,6 @@ public class RelationShipController implements Navigation.Nav {
         }
     }
 
-    private void navToProfile(Profile profile) throws IOException {
-        navigation.navToProfile(profile);
-    }
 
     public void goBack() throws IOException {
         navigation.navToProfile(profile);

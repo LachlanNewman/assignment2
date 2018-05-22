@@ -49,7 +49,7 @@ public class Database {
                     "  age      int  not null,\n" +
                     "  state    text not null\n" +
                     ");\n").execute();
-            
+
             readPeopleTextFileIntoDatabase();
             readRelationsTextFileIntoDatabase();
             return true;

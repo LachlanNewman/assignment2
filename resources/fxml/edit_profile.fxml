@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -31,7 +30,8 @@
 
         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="1">
             <children>
-                <Text fx:id="nameField"/>
+                <Text fx:id="imgError" fill="red" visible="false">No Image Available</Text>
+                <Text fx:id="nameField" />
                 <TextField fx:id="ageField" />
                 <TextField fx:id="statusField" />
                 <TextField fx:id="genderField" />
@@ -56,12 +56,12 @@
                     </VBox.margin>
                 </Button>
 
-                <Button onAction="#deleteProfile" prefHeight="25.0" GridPane.rowSpan="1" text="Delete Profile">
+                <Button onAction="#deleteProfile" prefHeight="25.0" prefWidth="307.0" text="Delete Profile" GridPane.rowSpan="1">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
-                <Button fx:id="navToFamily" onAction="#navToFamily" prefHeight="25.0" prefWidth="338.0" text="View Family">
+                <Button fx:id="navToRelationship" onAction="#navToRelationship" prefHeight="25.0" prefWidth="338.0" text="View Relationships">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
@@ -70,9 +70,6 @@
             </children>
         </VBox>
         <ImageView fx:id="profileImg" fitHeight="289.0" fitWidth="299.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-            <image>
-                <Image url="@../images/avatar.png" />
-            </image>
         </ImageView>
     </children>
 </GridPane>

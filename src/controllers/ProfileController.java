@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class ProfileController implements Navigation.Nav {
 
 
+    @FXML private Text imgError;
     @FXML
     private ImageView profileImg;
     @FXML
@@ -38,9 +39,6 @@ public class ProfileController implements Navigation.Nav {
     private TextField ageField,statusField,genderField;
     @FXML
     private ComboBox stateField;
-
-    @FXML
-    private Button navToFamily;
 
     private Profile profile;
 
@@ -54,13 +52,10 @@ public class ProfileController implements Navigation.Nav {
         stateField.getSelectionModel().select(profile.getState().name());
         try {
             //check to see if the url in the database can be found
-            profileImg.setImage(new Image(new FileInputStream(profile.getPhotoUrl())));
-        } catch (FileNotFoundException e) {
+            profileImg.setImage(new Image(profile.getPhotoUrl()));
+        } catch (IllegalArgumentException e) {
             //set error
-            e.printStackTrace();
-        }
-        catch (NullPointerException e){
-
+            imgError.setVisible(true);
         }
     }
 
@@ -106,7 +101,7 @@ public class ProfileController implements Navigation.Nav {
     }
 
 
-    public void navToFamily() throws IOException {
+    public void navToRelationship() throws IOException {
         navigation.navToRelationship(profile);
     }
 }

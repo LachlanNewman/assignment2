@@ -7,6 +7,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,14 +21,21 @@
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="574.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="261.0" minHeight="10.0" prefHeight="118.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="303.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="404.0" minHeight="10.0" prefHeight="404.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <ImageView fx:id="profileImg" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.rowSpan="1" GridPane.vgrow="NEVER" fitHeight="50" preserveRatio="true">
+
+        </ImageView>
+        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <children>
-                <TextField fx:id="firstNameField" promptText="First Name" />
+            <Button mnemonicParsing="false" onAction="#uploadImage" prefHeight="25.0" prefWidth="342.0" text="Upload Image" />
+                <TextField fx:id="firstNameField" promptText="First Name">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></TextField>
                 <TextField fx:id="lastNameField" promptText="Last Name">
                     <VBox.margin>
                         <Insets top="10.0" />

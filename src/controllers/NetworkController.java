@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -50,8 +53,14 @@ public class NetworkController implements Initializable, Navigation.Nav {
             for (Profile profile : profiles.values()) {
                 Group profileBox = new Group();
                 VBox profileContainer = new VBox();
-
-                Text nameField = new Text("Name: " + profile.getName());
+                Node imgDisplay;
+                try{
+                    imgDisplay = new ImageView( new Image(profile.getPhotoUrl()));
+                }
+                catch (IllegalArgumentException e) {
+                    imgDisplay = new Text("Image Not Found");
+                }
+                        Text nameField = new Text("Name: " + profile.getName());
                 Text ageField = new Text("Age: " + profile.getAge());
                 Text statusField = new Text("Status: " + profile.getStatus());
                 Text stateField = new Text("State: " + profile.getState().name());
@@ -65,7 +74,7 @@ public class NetworkController implements Initializable, Navigation.Nav {
                     }
                 });
 
-                profileContainer.getChildren().addAll(nameField,ageField,statusField,stateField,veiwProfile);
+                profileContainer.getChildren().addAll(imgDisplay,nameField,ageField,statusField,stateField,veiwProfile);
                 profileBox.getChildren().add(profileContainer);
                 searchResults.getChildren().addAll(profileBox);
             }
