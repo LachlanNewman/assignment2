@@ -25,6 +25,7 @@ public class Database {
     public static boolean tryConnnection(){
         connection = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(DB_CONNECTION);
             connection.prepareStatement("DROP TABLE IF EXISTS RELATIONSHIP;").execute();
             connection.prepareStatement("DROP TABLE IF EXISTS PROFILE;").execute();
